@@ -3,8 +3,7 @@ const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-app.use(cors({ origin: "*" }));
+app.use(require("cors")({ origin: "*" }));
 app.use(express.json());
 
 let tasks = [
