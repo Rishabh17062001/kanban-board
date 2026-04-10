@@ -2,23 +2,20 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-// In-memory tasks array
 let tasks = [
   { id: 1, title: "Learn React", status: "todo" },
   { id: 2, title: "Build Project", status: "done" }
 ];
 
-// 1️⃣ GET all tasks
 app.get("/tasks", (req, res) => {
   res.status(200).json(tasks);
 });
 
-// 2️⃣ CREATE task
 app.post("/tasks", (req, res) => {
   const { title } = req.body;
 
@@ -33,11 +30,9 @@ app.post("/tasks", (req, res) => {
   };
 
   tasks.push(newTask);
-
   res.status(201).json(newTask);
 });
 
-// 3️⃣ UPDATE task status
 app.put("/tasks/:id", (req, res) => {
   const id = Number(req.params.id);
   const { status } = req.body;
@@ -53,11 +48,9 @@ app.put("/tasks/:id", (req, res) => {
   }
 
   task.status = status;
-
   res.status(200).json(task);
 });
 
-// 4️⃣ DELETE task
 app.delete("/tasks/:id", (req, res) => {
   const id = Number(req.params.id);
 
@@ -74,4 +67,4 @@ app.delete("/tasks/:id", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-}); 
+});
